@@ -1,6 +1,6 @@
 # Drag Links! — Technical Architecture
 
-> 문서 버전: 0.2  
+> 문서 버전: 0.3  
 > 기준일: 2026-08-25  
 > 대상: Unity/C# 구현
 
@@ -227,9 +227,17 @@ View 상태를 게임 규칙의 진실값으로 사용하지 않는다.
 `PendingComboTriggers 증가량`
 으로 사용한다.
 
-## 9. 최신 연쇄 콤보 기술 구조
+## 9. 구현된 연쇄 콤보 기술 구조
 
-캐릭터 전용 Runtime State에 최소한 다음 개념이 필요하다.
+1-C-R에서 다음 기반이 구현 완료되었다.
+
+- `ChainComboRuntimeState`
+- `ChainComboResolver`
+- `ChainComboSettlementResult`
+- `GameplayActionController` 연동
+- `TurnPhase.ResolvingChainCombo`
+
+캐릭터 전용 Runtime State는 다음 개념을 사용한다.
 
 ### Current Stack
 예:
@@ -257,6 +265,13 @@ View 상태를 게임 규칙의 진실값으로 사용하지 않는다.
 - 5스택이면 일반 정산 일시 중지
 - 5스택 보드 파괴/재정산을 Gameplay/Turn 오케스트레이터와 연결
 - +S 완료 후 Pending 정산 재개
+
+현재 구현의 핵심 API:
+- LINKING Resolution 종료 후 `Pending += TotalLinkingLineCount`
+- `ChainComboResolver.TryResolveNextStep()` 한 호출당 Pending 하나만 소비
+- 결과에 `ActivatedStack`, `IsFiveStack`, `CurrentStackAfterStep`, `RemainingPendingTriggers`
+- 5스택은 Runtime Stack에 5를 유지하지 않고 결과를 만든 뒤 0으로 전환
+- 향후 5스택 실제 효과에서 외부 Orchestrator가 정산을 중단/재개
 
 중요:
 `LinkingDetector`가 한가은을 직접 알지 않는다.

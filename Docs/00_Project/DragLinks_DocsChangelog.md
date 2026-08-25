@@ -1,5 +1,18 @@
 # Drag Links! — Docs Changelog
 
+## v0.3 — 2026-08-25
+
+### 핵심 변경
+- 1-C-R Persistent Chain Combo Runtime이 실제 구현 완료되었음을 문서 상태에 반영
+- `ChainComboRuntimeState`, `ChainComboResolver`, Pending 단계 정산 Hook을 구현 현황으로 승격
+- 다음 구현 단계를 2-A Hangaeun Gem/Hammer Foundation으로 변경
+- Stage_01의 `PlayerVisualRoot / PlayerVideo / VideoPlayer / RT_PlayerCharacter` 수동 세팅 현황 추가
+- 한가은 수식 Gem/Hammer 능력 변경:
+  - Gem 주변 Number 직접 `+1` 폐기
+  - 주변 Number 한 개당 현재 보드 Number 대상으로 랜덤 Gem 부여 시도 1회
+  - 주변 Operator는 기존처럼 그 Operator 자체에 Hammer 부여
+- 전역 랜덤 Gem 후보의 세부 제외 조건은 상태 태그로 보존
+
 ## v0.2 — 2026-08-25
 
 ### 핵심 변경

@@ -1,6 +1,6 @@
 # Drag Links! — Project Status
 
-> 문서 버전: 0.2  
+> 문서 버전: 0.3  
 > 기준일: 2026-08-25  
 > 이 문서는 **현재 실제 프로젝트 상태**를 기록한다.
 
@@ -12,10 +12,12 @@
 
 [확정] 이번 프로젝트는 단기 약식 프로토타입이 아니라 **출시와 장기 확장을 전제로 한 본 제작 프로젝트**다.
 
-[확정] 첫 Gameplay 기반 마일스톤 1-A / 1-B / 1-C가 실제 Editor 테스트까지 완료되었다.
+[확정] Gameplay 기반 마일스톤 1-A / 1-B / 1-C가 완료되었다.
+
+[확정] **1-C-R 지속형 연쇄 콤보 Runtime 기반 구현도 완료되었다.**
 
 현재 단계는:
-> **공통 Board/Drag/LINKING 기반 완료 → 최신 한가은 연쇄 콤보 규칙 반영 준비**
+> **Board/Drag/LINKING + Persistent Chain Combo Runtime 기반 완료 → 2-A 한가은 Gem/Hammer Foundation 준비**
 
 상태다.
 
@@ -55,10 +57,18 @@
 Gameplay:
 - `GameplayCanvas`
   - `BoardRoot`
+  - `PlayerVisualRoot`
+    - `PlayerVideo` (`RawImage`)
   - `HudRoot`
   - `OverlayRoot`
 - `EventSystem`
 - Board 표시/Bootstrap 관련 GameObject
+
+Player presentation 준비:
+- `PlayerVisualRoot`에 `VideoPlayer`
+- `Assets/_Project/Video/RenderTextures/RT_PlayerCharacter`
+- RenderTexture → RawImage 연결용 Hierarchy/Inspector 수동 세팅 완료
+- Idle/Attack 전환 C#은 아직 미구현
 
 [현재안] 보드는 화면 중앙 하단에 크게 배치하고, 향후 좌측에는 플레이어 캐릭터, 우측에는 적 캐릭터를 표시하는 구도를 사용한다.
 
@@ -163,42 +173,35 @@ ProjectSettings/
 
 로 사용한다.
 
-## 9. 구현 완료 — 지속형 연쇄 콤보 Runtime 기반
+## 9. 구현 완료 — 1-C-R Persistent Chain Combo Runtime
 
-현재 코드 반영 완료:
+[확정] 최신 지속형 연쇄 콤보 Runtime 기반이 코드에 반영되었다.
 
-- `ChainComboRuntimeState`: 턴을 넘어 유지되는 `CurrentStack` / `PendingComboTriggers`
-- `ChainComboResolver`: Pending 한 개 단위 정산 API
-- `ChainComboStepResult`: 활성화된 1~5스택 단계 결과
-- `ChainComboSettlementResult`: 한 Action의 단계 순서와 최종 Runtime 상태
-- `GameplayActionController`: LINKING LineCount Pending 등록 및 정산 연결
-- 5스택 후 0 초기화, 남은 Pending 재개 및 한 Action 내 복수 5스택 기반
-- Gameplay Action 사이 동일 Runtime State 유지 테스트
+구현:
+- `ChainComboRuntimeState`
+- `ChainComboResolver`
+- `ChainComboSettlementResult`
+- 관련 EditMode 테스트
+- `GameplayActionController` 연결
+- `TurnPhase.ResolvingChainCombo`
 
-현재 기반에 반영된 확정 규칙:
-- 연쇄 콤보 현재 스택은 턴을 넘어 유지
-- LINKING 라인 하나당 콤보 정산 대기 횟수 +1
-- LINKING 보드 해결을 먼저 끝낸 후 대기 횟수를 순차 정산
-- 스택 증가 때마다 1/2/3/4/5 단계 발생 결과 생성
-- 5스택 발동 후 현재 스택은 0
+현재 Runtime 의미:
+- `CurrentStack`: 0~4, Gameplay Action을 넘어 유지
+- `PendingComboTriggers`: 아직 정산하지 않은 LINKING Line 수
+- LINKING Resolution 후 `Pending += TotalLinkingLineCount`
+- `TryResolveNextStep()` 한 호출당 Pending 1개 정산
+- 4→5 시 `ActivatedStack=5` 결과 생성 후 Runtime Stack 즉시 0
+- 향후 실제 5스택 효과에서 외부 Orchestrator가 중단/보드 재정산/재개 가능
 
-아직 실제 효과가 미구현인 최신 확정 규칙:
+현재는 1~5스택 **실제 Gem/Destroy/+n/+S 효과는 아직 구현하지 않았다.**
 
-- 5스택은 보석 숫자를 실제 파괴
-- 5스택 파괴로 생긴 Refill/LINKING은 다시 보드 해결
-- 해당 추가 LINKING도 새로운 콤보 정산 대기 횟수로 누적
-- 추가 LINKING 종료 후 파괴된 보석 값 합 `S`만큼 최종 현재 숫자 타일 전체 +S
-- 이후 남은 콤보 정산 대기 횟수 처리 재개
-
-상세:
-- `Docs/01_Gameplay/DragLinks_Linking.md`
-- `Docs/02_Characters/DragLinks_Hangaeun.md`
-- `Docs/01_Gameplay/DragLinks_TurnFlow.md`
+Codex 완료 보고 시점에는 마지막 Asset Import 이후 Unity EditMode `Run All`을 다시 실행하지 않은 상태였다는 검증 메모가 있었으나, 구현 상태 자체는 완료로 기록한다.
 
 ## 10. 아직 구현되지 않은 핵심
 
 - 한가은 Gem/Hammer 실제 기능
-- 연쇄 콤보 1~5스택 실제 보드 효과
+- 실제 1~5스택 보드 효과
+- 5스택 실제 보석 파괴 및 +S
 - 실제 산술 계산
 - 점수 계산
 - Operator Fusion
@@ -208,6 +211,7 @@ ProjectSettings/
 - Unique
 - Story/Shop 본 구현
 - 타일 낙하/파괴/LINKING 실제 애니메이션
+- CharacterVideoController 기반 Idle/Attack 자동 전환
 
 ## 11. 현재 테스트용 밸런스
 
@@ -221,12 +225,23 @@ Mathcalibur의 가중치를 출발 참고값으로 사용할 수 있으나 Drag 
 
 ## 12. 다음 추천 작업
 
-1. 판정 이벤트(`연산/사용/파괴/변화`) 데이터 모델 준비
-2. Gem/Hammer 기본 능력 구현
-3. 한가은 1~5스택 실제 능력과 5스택 중단/보드 재정산/재개 연결
-4. 실제 수식 계산 및 점수 시스템
+1. **2-A 한가은 Gem/Hammer Foundation**
+   - Number만 Gem
+   - Operator만 Hammer
+   - Game Start / 완전한 Turn End 후 기본 부여
+   - Runtime 상태 유지 / Refill 기본 특수 없음
+   - 임시 시각 표시
+2. 2-B 수식 Hammer + Gem 기본 능력
+3. 2-C 실제 1~5 Chain Combo 효과
+4. 실제 수식 계산 및 점수
+5. Operator Fusion / Stage / Unique
 
-실제 구현 순서는 기능 의존성을 보고 조정 가능하다.
+Player 영상 Presentation은 별도 작은 작업으로:
+- `CharacterVideoController`
+- Idle loop
+- Valid Gameplay Action → Attack 1회
+- Attack 종료 → Idle
+를 연결할 수 있다.
 
 ## 13. 문서 갱신 원칙
 

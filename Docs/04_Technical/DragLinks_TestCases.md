@@ -1,6 +1,6 @@
 # Drag Links! — Core Test Cases
 
-> 문서 버전: 0.2  
+> 문서 버전: 0.3  
 > 기준일: 2026-08-25
 
 이 문서는 출시용 프로젝트에서 최소한 검증해야 할 핵심 규칙을 정리한다.
@@ -194,38 +194,48 @@ Identity=1 Gem Number가 5스택으로 파괴.
 
 ## G-01 Hammer + Gem
 기대:
-- 수식/점수 후 Gem 효과 발동
+- 수식/점수 후 Gem/Hammer 효과 발동
 
-## G-02 3×3
+## G-02 주변 Number → 전역 Gem 시도
+Gem 3×3 주변의 유효 Number가 3개.
+
 기대:
-- 일반 Number → Gem
-- 일반 Operator → Hammer
+- Number 숫자값 직접 +1 없음
+- 현재 보드 Number 대상 Gem 부여 시도 3회
 
-## G-03 Drag Path 제외
+## G-03 주변 Operator
 기대:
-- 현재 수식 타일은 주변 변환 대상 제외
+- Gem 주변 일반 Operator 자신에게 Hammer 부여
 
-## G-04 이미 특수
+## G-04 Drag Path 주변 판정 제외
 기대:
-- 중복 부여 없음
+- 현재 수식 경로 타일은 3×3 주변 판정 대상에서 제외
 
-## G-05 새 특수 즉시 재폭발
+## G-05 이미 Hammer
 기대:
-- 즉시 추가 폭발 없음
+- 주변 Operator가 이미 Hammer면 중복 상태 없음
 
-## G-06 복수 Hammer
+## G-06 새 특수 즉시 재폭발
+기대:
+- 새로 Gem/Hammer가 된 타일이 즉시 추가 발동하지 않음
+
+## G-07 복수 Hammer
 기대:
 - Drag 순서상 첫 Hammer만 트리거
 
-## G-07 Gem 최대 3
+## G-08 Gem 최대 3
 기대:
-- 한 Hammer가 최대 3 Gem 처리
+- 한 Hammer가 같은 수식의 Gem 최대 3개 처리
 
-## G-08 Gem 4개 이상
+## G-09 Gem 4개 이상
 기대:
 - 우선순위 [미정]
 - 임의 확정 금지
 
+## G-10 전역 Gem 랜덤 후보
+기대:
+- 기존 Gem 제외 여부 / 수식 경로 제외 여부는 문서 상태 태그에 따름
+- `[미정]`을 테스트 편의상 임의 확정하지 않음
 # H. Persistent Chain Combo
 
 ## H-01 1 Line, Stack 0

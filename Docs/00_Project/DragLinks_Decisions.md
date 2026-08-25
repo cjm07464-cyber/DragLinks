@@ -1,6 +1,6 @@
 # Drag Links! — Decision Log
 
-> 문서 버전: 0.1  
+> 문서 버전: 0.2  
 > 기준일: 2026-08-25  
 > 목적: 중요한 설계 결정과 변경 이유를 남겨, 과거 코드/문서와 현재 규칙이 다를 때 새 개발자나 AI가 맥락을 이해하도록 한다.
 
@@ -134,3 +134,37 @@ LINKING으로 실제 제거되는 숫자 타일은:
 `CurrentValue += S`
 
 둘 다 고유 숫자 속성은 변경하지 않는다.
+
+---
+
+## 2026-08-25 — 1-C-R Persistent Chain Combo Runtime 구현 완료
+
+### 결정/현황
+최신 지속형 연쇄 콤보 기반이 실제 코드에 반영되었다.
+
+- `ChainComboRuntimeState`
+- `ChainComboResolver`
+- Persistent `CurrentStack`
+- `PendingComboTriggers`
+- `TryResolveNextStep()` 기반 단계별 정산
+- 5스택 결과 후 Runtime Stack 0
+- 5스택 실제 보드 효과를 끼워 넣기 위한 중단/재개 Hook
+
+`TotalLinkingLineCount`는 현재 스택이 아니라 Pending 증가량으로 사용한다.
+
+---
+
+## 2026-08-25 — 한가은 수식 Gem/Hammer 주변 효과 변경
+
+### 폐기
+보석 주변 Number에 숫자값 `+1`을 직접 주는 방식은 사용하지 않는다.
+
+### 최신 결정
+Hammer + Gem 수식 능력 발동 시 Gem의 3×3 주변을 조사한다.
+
+- 주변 Number 1개 발견 → 현재 보드의 Number 중 랜덤 1개에 Gem 부여 시도 1회
+- 주변 Number가 여러 개면 그 수만큼 전역 Gem 부여 시도
+- 주변 Operator → 해당 Operator 자체에 Hammer 부여
+- 새로 생성된 Gem/Hammer가 즉시 재발동하지 않음
+
+세부 랜덤 후보 정책(기존 Gem 제외 여부, 현재 수식 경로 제외 여부)은 구현 전 문서의 상태 태그를 확인한다.

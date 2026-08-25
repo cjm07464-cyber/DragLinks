@@ -1,6 +1,6 @@
 # Drag Links! — Codex / AI 작업 지침
 
-> 문서 버전: 0.2  
+> 문서 버전: 0.3  
 > 기준일: 2026-08-25  
 > 프로젝트 성격: **출시를 목적으로 처음부터 새로 제작하는 Unity PC 캐주얼 퍼즐 게임**
 
@@ -75,13 +75,19 @@
 - 교차 LINKING의 라인 수/중복 제거 분리
 - LINKING 반복 해결
 - 처리 중 입력 잠금
+- **1-C-R 지속형 연쇄 콤보 Runtime 기반**
+- `ChainComboRuntimeState`
+- `ChainComboResolver`
+- Persistent `CurrentStack`
+- `PendingComboTriggers`
+- 5스택 중단/재개를 위한 한 단계 정산 API
 
 아직 구현되지 않은 주요 기능:
 - 실제 산술 계산
 - 점수
 - 연산자 합성
-- 한가은 보석/망치 능력
-- **최신 지속형 연쇄 콤보 능력**
+- 한가은 Gem/Hammer 실제 보드 효과
+- 연쇄 콤보 1~5스택 실제 효과
 - 유니크
 - 적 기믹
 - 완전한 턴 카운트
@@ -116,6 +122,7 @@
 7. **ScriptableObject 원본 데이터와 런타임 상태를 분리한다.**
    - Definition/Config를 플레이 중 누적 상태 저장소처럼 직접 변형하지 않는다.
    - 한가은의 연쇄 콤보 현재 스택처럼 턴을 넘어 유지되는 값은 Runtime State에 둔다.
+   - 현재 `ChainComboRuntimeState` / `ChainComboResolver` 기반이 구현되어 있다.
 
 ## 7. 중요한 현재 게임 규칙 요약
 
