@@ -1,4 +1,6 @@
 AGENTS.md
+Docs/00_Project/DragLinks_Decisions.md
+Docs/00_Project/DragLinks_DocsChangelog.md
 Docs/00_Project/DragLinks_Main.md
 Docs/00_Project/DragLinks_OpenQuestions.md
 Docs/00_Project/DragLinks_ProjectStatus.md
@@ -6,6 +8,7 @@ Docs/00_Project/DragLinks_SceneFlow.md
 Docs/01_Gameplay/DragLinks_Board.md
 Docs/01_Gameplay/DragLinks_Drag.md
 Docs/01_Gameplay/DragLinks_FormulaAndScore.md
+Docs/01_Gameplay/DragLinks_Judgements.md
 Docs/01_Gameplay/DragLinks_Linking.md
 Docs/01_Gameplay/DragLinks_TurnFlow.md
 Docs/02_Characters/DragLinks_CharacterSystem.md

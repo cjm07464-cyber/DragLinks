@@ -1,6 +1,6 @@
 # Drag Links! 문서 인덱스
 
-> 문서 버전: 0.1  
+> 문서 버전: 0.2  
 > 기준일: 2026-08-25
 
 이 문서는 Drag Links! 프로젝트의 **문서 지도**다.  
@@ -12,10 +12,11 @@
 
 1. `Docs/00_Project/DragLinks_Main.md`
 2. 해당 시스템의 최신 전용 문서
-3. `Docs/04_Technical/` 아래의 기술 문서
-4. `Docs/04_Technical/DragLinks_TestCases.md`
-5. `Docs/99_Archive/`의 과거 자료
-6. Mathcalibur 레거시 자료
+3. `Docs/00_Project/DragLinks_Decisions.md`
+4. `Docs/04_Technical/` 아래의 기술 문서
+5. `Docs/04_Technical/DragLinks_TestCases.md`
+6. `Docs/99_Archive/`의 과거 자료
+7. Mathcalibur 레거시 자료
 
 실제 개발 중 최신 기획 결정이 아직 문서에 반영되지 않았음이 확인되면 **문서를 먼저 갱신한 뒤 구현과 맞춘다.**
 
@@ -24,9 +25,10 @@
 1. `00_Project/DragLinks_Main.md`
 2. `00_Project/DragLinks_ProjectStatus.md`
 3. `00_Project/DragLinks_SceneFlow.md`
-4. `00_Project/DragLinks_OpenQuestions.md`
-5. `01_Gameplay/DragLinks_TurnFlow.md`
-6. 필요한 시스템 문서
+4. `00_Project/DragLinks_Decisions.md`
+5. `00_Project/DragLinks_OpenQuestions.md`
+6. `01_Gameplay/DragLinks_TurnFlow.md`
+7. 필요한 시스템 문서
 
 ## 3. 문서 목록
 
@@ -37,7 +39,9 @@
 | `DragLinks_Main.md` | 게임 정체성, 핵심 규칙, 전체 방향, 용어 |
 | `DragLinks_ProjectStatus.md` | 현재 Unity 프로젝트 상태와 구현 단계 |
 | `DragLinks_SceneFlow.md` | Title/Menu/Story/Stage 씬 역할과 흐름 |
+| `DragLinks_Decisions.md` | 중요한 기획/기술 결정과 변경 이유 기록 |
 | `DragLinks_OpenQuestions.md` | 구현 전 확인이 필요한 미정/충돌 가능 항목 |
+| `DragLinks_DocsChangelog.md` | 문서 세트 버전별 핵심 변경 요약 |
 
 ### 01_Gameplay
 
@@ -46,15 +50,16 @@
 | `DragLinks_Board.md` | 보드, 타일, 숫자 속성, 생성, 제거, 중력, 충당 |
 | `DragLinks_Drag.md` | PC 드래그, 8방향 연결, 되돌리기, 수식/연산자 합성 입력 |
 | `DragLinks_FormulaAndScore.md` | 사칙연산, 수식 결과, 약수 배율, 점수 |
-| `DragLinks_Linking.md` | 연쇄 보너스, LINKING!, 연쇄 콤보 |
-| `DragLinks_TurnFlow.md` | 한 턴의 전체 처리 순서와 상태 |
+| `DragLinks_Linking.md` | 연쇄 보너스, LINKING!, 지속형 연쇄 콤보 정산 |
+| `DragLinks_Judgements.md` | 연산/사용/파괴/변화 판정과 이벤트 의미 |
+| `DragLinks_TurnFlow.md` | 한 턴의 전체 처리 순서와 5스택 특수 흐름 |
 
 ### 02_Characters
 
 | 문서 | 내용 |
 |---|---|
 | `DragLinks_CharacterSystem.md` | 플레이어블 캐릭터 공통 구조와 확장 방향 |
-| `DragLinks_Hangaeun.md` | 한가은의 보석/망치 능력과 연쇄 콤보 효과 |
+| `DragLinks_Hangaeun.md` | 한가은의 보석/망치 및 1~5스택 능력 |
 
 ### 03_Content
 
@@ -62,13 +67,13 @@
 |---|---|
 | `DragLinks_Stage.md` | 스테이지 규칙, Stage_01, 적 기믹, 향후 요소 |
 | `DragLinks_Story.md` | 세계관, S.A.V.E, Link, 스토리 톤 |
-| `DragLinks_Unique.md` | 유니크/수치형 성장과 현재 예시 |
+| `DragLinks_Unique.md` | 유니크/수치형 성장과 사용 판정 예시 |
 
 ### 04_Technical
 
 | 문서 | 내용 |
 |---|---|
-| `DragLinks_Architecture.md` | 스크립트 역할 배분, 의존 관계, 폴더 구조 |
+| `DragLinks_Architecture.md` | 스크립트 역할 배분, 의존 관계, 최신 연쇄 콤보 구조 |
 | `DragLinks_DataAndConfig.md` | ScriptableObject, Config, Runtime State, 데이터 원칙 |
 | `DragLinks_TestCases.md` | 시스템별 필수 테스트 케이스 |
 
@@ -90,17 +95,24 @@
 
 ### 수식/점수
 - `DragLinks_FormulaAndScore.md`
+- `DragLinks_Judgements.md`
 - `DragLinks_TestCases.md`
 
 ### LINKING
 - `DragLinks_Linking.md`
+- `DragLinks_Judgements.md`
 - `DragLinks_TurnFlow.md`
-- `DragLinks_Hangaeun.md` — 캐릭터 효과까지 작업할 때만
 
 ### 한가은
 - `DragLinks_CharacterSystem.md`
 - `DragLinks_Hangaeun.md`
+- `DragLinks_Linking.md`
+- `DragLinks_Judgements.md`
 - `DragLinks_TurnFlow.md`
+
+### 유니크
+- `DragLinks_Unique.md`
+- `DragLinks_Judgements.md`
 
 ### 씬 이동
 - `DragLinks_SceneFlow.md`
